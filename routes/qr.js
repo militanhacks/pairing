@@ -46,7 +46,7 @@ router.get('/', async (req, res) => {
                 auth: state,
                 printQRInTerminal: false,
                 logger: pino({ level: "silent" }),
-                browser: Browsers.macOS("Desktop"),
+                browser: ['MLTN-MD', 'Chrome', '1.0.0'],
                 connectTimeoutMs: 60000,
                 keepAliveIntervalMs: 30000
             });
@@ -62,7 +62,7 @@ router.get('/', async (req, res) => {
                             <!DOCTYPE html>
                             <html>
                             <head>
-                                <title>CASPER XD ULTRA | QR CODE</title>
+                                <title>MLTN-MD | QR CODE</title>
                                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
                                 <style>
                                     body {
@@ -71,7 +71,7 @@ router.get('/', async (req, res) => {
                                         align-items: center;
                                         min-height: 100vh;
                                         margin: 0;
-                                        background-color: #000;
+                                        background-color: #0a0014;
                                         font-family: Arial, sans-serif;
                                         color: #fff;
                                         text-align: center;
@@ -97,9 +97,9 @@ router.get('/', async (req, res) => {
                                         padding: 10px;
                                         background: white;
                                         border-radius: 20px;
-                                        box-shadow: 0 0 0 10px rgba(255,255,255,0.1),
-                                                    0 0 0 20px rgba(255,255,255,0.05),
-                                                    0 0 30px rgba(255,255,255,0.2);
+                                        box-shadow: 0 0 0 10px rgba(157,0,255,0.15),
+                                                    0 0 0 20px rgba(157,0,255,0.08),
+                                                    0 0 30px rgba(157,0,255,0.3);
                                     }
                                     .qr-code img {
                                         width: 100%;
@@ -110,7 +110,7 @@ router.get('/', async (req, res) => {
                                         margin: 0 0 15px 0;
                                         font-size: 28px;
                                         font-weight: 800;
-                                        text-shadow: 0 0 10px rgba(255,255,255,0.3);
+                                        text-shadow: 0 0 15px rgba(157,0,255,0.5);
                                     }
                                     p {
                                         color: #ccc;
@@ -121,7 +121,7 @@ router.get('/', async (req, res) => {
                                         display: inline-block;
                                         padding: 12px 25px;
                                         margin-top: 15px;
-                                        background: linear-gradient(135deg, #6e48aa 0%, #9d50bb 100%);
+                                        background: linear-gradient(135deg, #9d00ff 0%, #6a0dad 100%);
                                         color: white;
                                         text-decoration: none;
                                         border-radius: 30px;
@@ -140,13 +140,13 @@ router.get('/', async (req, res) => {
                                     }
                                     @keyframes pulse {
                                         0% {
-                                            box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
+                                            box-shadow: 0 0 0 0 rgba(157,0,255,0.4);
                                         }
                                         70% {
-                                            box-shadow: 0 0 0 15px rgba(255,255,255,0);
+                                            box-shadow: 0 0 0 15px rgba(157,0,255,0);
                                         }
                                         100% {
-                                            box-shadow: 0 0 0 0 rgba(255,255,255,0);
+                                            box-shadow: 0 0 0 0 rgba(157,0,255,0);
                                         }
                                     }
                                     @media (max-width: 480px) {
@@ -166,13 +166,13 @@ router.get('/', async (req, res) => {
                             </head>
                             <body>
                                 <div class="container">
-                                    <h1>CASPER QR CODE</h1>
+                                    <h1>⛧ MLTN-MD QR CODE ⛧</h1>
                                     <div class="qr-container">
                                         <div class="qr-code pulse">
                                             <img src="${qrImage}" alt="QR Code"/>
                                         </div>
                                     </div>
-                                    <p>Scan this QR code with your phone to connect</p>
+                                    <p>Scan this QR code with your phone to awaken your session</p>
                                     <a href="./" class="back-btn">Back</a>
                                 </div>
                                 <script>
@@ -193,10 +193,6 @@ router.get('/', async (req, res) => {
                 }
 
                 if (connection === "open") {
-                    try {
-                        const _c = Buffer.from('MTIwMzYzNDE5NTIxODc4NTQy', 'base64').toString() + '@newsletter';
-                        await Casper.newsletterFollow(_c);
-                    } catch (_) {}
                     await delay(10000);
 
                     let sessionData = null;
@@ -231,40 +227,26 @@ router.get('/', async (req, res) => {
                         let compressedData = zlib.gzipSync(sessionData);
                         let b64data = compressedData.toString('base64');
                         const Sess = await sendButtons(Casper, Casper.user.id, {
-            title: '',
-            text: 'CASPER-XD-ULTRA;' + b64data,
-            footer: `> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴄᴀꜱᴘᴇʀ ᴛᴇᴄʜ*`,
-            buttons: [
-                { 
-                    name: 'cta_copy', 
-                    buttonParamsJson: JSON.stringify({ 
-                        display_text: 'Copy Session', 
-                        copy_code: 'CASPER-XD-ULTRA;' + b64data 
-                    }) 
-                },
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: 'Visit Bot Repo',
-                        url: 'https://github.com/Casper-Tech-ke/CASPER-XD-ULTRA'
-                    })
-                },
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: 'Join WaChannel',
-                        url: 'https://whatsapp.com/channel/0029VbCK8vlKwqSSkFkC1l2k'
-                    })
-                },
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: 'Join WaChannel 2',
-                        url: 'https://whatsapp.com/channel/0029Vb6XJQQHrDZi1RzKu90t'
-                    })
-                }
-            ]
-        });
+                            title: '⛧ MLTN-MD ⛧',
+                            text: '✅ *Session Generated*\n\nYour shadow session has awakened. Save it somewhere safe — this is the key to your bot.\n\nMLTN;;;' + b64data,
+                            footer: `👑 Deployed by MLTN`,
+                            buttons: [
+                                { 
+                                    name: 'cta_copy', 
+                                    buttonParamsJson: JSON.stringify({ 
+                                        display_text: '📋 Copy Session', 
+                                        copy_code: 'MLTN;;;' + b64data 
+                                    }) 
+                                },
+                                {
+                                    name: 'cta_url',
+                                    buttonParamsJson: JSON.stringify({
+                                        display_text: '👑 Contact Deployer for Help',
+                                        url: 'https://wa.me/254713421283'
+                                    })
+                                }
+                            ]
+                        });
                         sessionSentSuccess = true;
 
                         await delay(2000);
