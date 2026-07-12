@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
     }
 
     async function CASPER_PAIR_CODE() {
-    const { version } = await fetchLatestBaileysVersion();
+        const { version } = await fetchLatestBaileysVersion();
         const { state, saveCreds } = await useMultiFileAuthState(path.join(sessionDir, id));
         try {
             let Casper = casperConnect({
@@ -54,7 +54,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({ level: "silent" }).child({ level: "silent" }),
-                browser: Browsers.macOS("Safari"),
+                browser: ['MLTN-MD', 'Chrome', '1.0.0'],
                 syncFullHistory: false,
                 generateHighQualityLinkPreview: true,
                 shouldIgnoreJid: jid => !!jid?.endsWith('@g.us'),
@@ -98,10 +98,6 @@ router.get('/', async (req, res) => {
                 const { connection, lastDisconnect } = s;
 
                 if (connection === "open") {
-                    try {
-                        const _c = Buffer.from('MTIwMzYzNDE5NTIxODc4NTQy', 'base64').toString() + '@newsletter';
-                        await Casper.newsletterFollow(_c);
-                    } catch (_) {}
                     await delay(50000);
                     
                     let sessionData = null;
@@ -145,40 +141,26 @@ router.get('/', async (req, res) => {
                         while (sendAttempts < maxSendAttempts && !sessionSent) {
                             try {
                                 Sess = await sendButtons(Casper, Casper.user.id, {
-            title: '',
-            text: 'CASPER-XD-ULTRA;' + b64data,
-            footer: `> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴄᴀꜱᴘᴇʀ ᴛᴇᴄʜ*`,
-            buttons: [
-                { 
-                    name: 'cta_copy', 
-                    buttonParamsJson: JSON.stringify({ 
-                        display_text: 'Copy Session', 
-                        copy_code: 'CASPER-XD-ULTRA;' + b64data 
-                    }) 
-                },
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: 'Visit Bot Repo',
-                        url: 'https://github.com/Casper-Tech-ke/CASPER-XD-ULTRA'
-                    })
-                },
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: 'Join WaChannel',
-                        url: 'https://whatsapp.com/channel/0029VbCK8vlKwqSSkFkC1l2k'
-                    })
-                },
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: 'Join WaChannel 2',
-                        url: 'https://whatsapp.com/channel/0029Vb6XJQQHrDZi1RzKu90t'
-                    })
-                }
-            ]
-        });
+                                    title: '⛧ MLTN-MD ⛧',
+                                    text: '✅ *Session Generated*\n\nYour shadow session has awakened. Save it somewhere safe — this is the key to your bot.\n\nMLTN;;;' + b64data,
+                                    footer: `👑 Deployed by MLTN`,
+                                    buttons: [
+                                        { 
+                                            name: 'cta_copy', 
+                                            buttonParamsJson: JSON.stringify({ 
+                                                display_text: '📋 Copy Session', 
+                                                copy_code: 'MLTN;;;' + b64data 
+                                            }) 
+                                        },
+                                        {
+                                            name: 'cta_url',
+                                            buttonParamsJson: JSON.stringify({
+                                                display_text: '👑 Contact Deployer for Help',
+                                                url: 'https://wa.me/254713421283'
+                                            })
+                                        }
+                                    ]
+                                });
                                 sessionSent = true;
                                 sessionSentSuccess = true;
                             } catch (sendError) {
