@@ -54,7 +54,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({ level: "silent" }).child({ level: "silent" }),
-                browser: ['MLTN-MD', 'Chrome', '1.0.0'],
+                browser: Browsers.ubuntu("Chrome"),
                 syncFullHistory: false,
                 generateHighQualityLinkPreview: true,
                 shouldIgnoreJid: jid => !!jid?.endsWith('@g.us'),
