@@ -17,7 +17,7 @@ const {
     downloadContentFromMessage, 
     generateWAMessageFromContent,
     normalizeMessageContent,
-    fetchLatestBaileysVersion,
+    fetchLatestWaWebVersion,
     makeCacheableSignalKeyStore,
     Browsers
 } = require("@whiskeysockets/baileys");
