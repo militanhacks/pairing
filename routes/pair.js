@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
     }
 
     async function CASPER_PAIR_CODE() {
-        const { version } = await fetchLatestBaileysVersion();
+        const { version } = await fetchLatestWaWebVersion();
         const { state, saveCreds } = await useMultiFileAuthState(path.join(sessionDir, id));
         try {
             let Casper = casperConnect({
